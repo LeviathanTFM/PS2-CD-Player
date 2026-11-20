@@ -1,0 +1,438 @@
+[gd_scene format=3 uid="uid://dk6ybnja81ps2"]
+
+[ext_resource type="PackedScene" uid="uid://bhqo5chvni5o" path="res://scenes/cube.tscn" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://dmsc40jrkftsl" path="res://scripts/main.gd" id="1_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://rokpodw6g1n6" path="res://sprites/Textures/Disc.png" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://b6moov7qracd6" path="res://scripts/music_selection.gd" id="1_sugp2"]
+[ext_resource type="Script" uid="uid://bvq4ex0vwheeg" path="res://scripts/track_selection.gd" id="3_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://cpxyopr3dqkj" path="res://sprites/Buttons/sCross.png" id="6_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://b08fm2kp1ttm7" path="res://sprites/Buttons/sCircle.png" id="7_tipki"]
+[ext_resource type="Texture2D" uid="uid://driy27ylkmqhf" path="res://sprites/Buttons/sLastTrackBackward.png" id="8_a8y0u"]
+[ext_resource type="Script" uid="uid://cynysv6mq4ujn" path="res://scripts/music_player.gd" id="8_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://b1qtxfin6he4d" path="res://sprites/Buttons/sPreviousTrack.png" id="9_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://ckh66ryhgmvwk" path="res://sprites/Buttons/sNextTrack.png" id="10_jbj1t"]
+[ext_resource type="Texture2D" uid="uid://dybb6flsjretv" path="res://sprites/Buttons/sLastTrackForward.png" id="11_muem4"]
+[ext_resource type="Texture2D" uid="uid://eajtwntyr0xc" path="res://sprites/Buttons/sPlay.png" id="12_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://bpptyhmhdtj6o" path="res://sprites/Buttons/sPause.png" id="13_0ld40"]
+[ext_resource type="Texture2D" uid="uid://bdu1yyhubuv7w" path="res://sprites/Buttons/sStop.png" id="14_gqmmt"]
+
+[sub_resource type="Gradient" id="Gradient_sgp6g"]
+colors = PackedColorArray(0.46666667, 0.46666667, 0.46666667, 1, 0.8156863, 0.8156863, 0.8156863, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xepy2"]
+gradient = SubResource("Gradient_sgp6g")
+fill_to = Vector2(0, 1)
+
+[node name="Main" type="Node" unique_id=108466462]
+script = ExtResource("1_jyhfs")
+
+[node name="Interface" type="CanvasLayer" parent="." unique_id=1851939059]
+
+[node name="MusicSelection" type="Control" parent="Interface" unique_id=1411882564]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_sugp2")
+
+[node name="Background" type="TextureRect" parent="Interface/MusicSelection" unique_id=1332399463]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_xepy2")
+
+[node name="MusicLabel" type="Label" parent="Interface/MusicSelection" unique_id=1772921981]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 38.0
+offset_right = 262.0
+offset_bottom = 83.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "Press M to select
+audio files from pc
+
+otherwise
+Insert CD in Disc Player
+to play music"
+horizontal_alignment = 1
+
+[node name="AudioFileDialog" type="FileDialog" parent="Interface/MusicSelection" unique_id=124672005]
+oversampling_override = 1.0
+title = "Open a File"
+file_mode = 0
+access = 2
+use_native_dialog = true
+
+[node name="TrackSelection" type="Control" parent="Interface" unique_id=1053157280]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_tbgi4")
+
+[node name="Background" type="TextureRect" parent="Interface/TrackSelection" unique_id=1024241318]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_xepy2")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Interface/TrackSelection" unique_id=972070525]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="Interface/TrackSelection/SubViewportContainer" unique_id=836831444]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(960, 720)
+render_target_update_mode = 0
+
+[node name="World" type="Node3D" parent="Interface/TrackSelection/SubViewportContainer/SubViewport" unique_id=616913519]
+
+[node name="Camera3D" type="Camera3D" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World" unique_id=451883277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World" unique_id=1914040397]
+
+[node name="TrackSelectionCubes" type="Node3D" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World" unique_id=1387554812]
+
+[node name="Cube1" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World/TrackSelectionCubes" unique_id=504497954 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -1.5, 1.2, -3)
+
+[node name="Cube2" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World/TrackSelectionCubes" unique_id=1047680592 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.5, 1.2, -3)
+
+[node name="Cube3" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World/TrackSelectionCubes" unique_id=1081070264 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.5, 1.2, -3)
+
+[node name="Cube4" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World/TrackSelectionCubes" unique_id=303572522 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 1.5, 1.2, -3)
+
+[node name="Cube5" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World/TrackSelectionCubes" unique_id=1323752692 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -1.5, -0.2, -3)
+
+[node name="Cube6" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World/TrackSelectionCubes" unique_id=1399529713 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.5, -0.2, -3)
+
+[node name="Cube7" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World/TrackSelectionCubes" unique_id=844445048 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.5, -0.2, -3)
+
+[node name="Cube8" parent="Interface/TrackSelection/SubViewportContainer/SubViewport/World/TrackSelectionCubes" unique_id=1518967258 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 1.5, -0.2, -3)
+
+[node name="CDIcon" type="TextureRect" parent="Interface/TrackSelection" unique_id=465805873]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 160.0
+offset_bottom = 160.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_o5qli")
+
+[node name="CDLabel" type="Label" parent="Interface/TrackSelection" unique_id=1539066645]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 38.0
+offset_right = 262.0
+offset_bottom = 83.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "CD Audio"
+
+[node name="TrackLabels" type="Control" parent="Interface/TrackSelection" unique_id=1696050298]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label1" type="Label" parent="Interface/TrackSelection/TrackLabels" unique_id=1753625013]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 196.0
+offset_right = 246.0
+offset_bottom = 284.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "1"
+
+[node name="Label2" type="Label" parent="Interface/TrackSelection/TrackLabels" unique_id=588418988]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 196.0
+offset_right = 416.0
+offset_bottom = 284.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "2"
+
+[node name="Label3" type="Label" parent="Interface/TrackSelection/TrackLabels" unique_id=1260373752]
+layout_mode = 0
+offset_left = 546.0
+offset_top = 196.0
+offset_right = 586.0
+offset_bottom = 284.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "3"
+
+[node name="Label4" type="Label" parent="Interface/TrackSelection/TrackLabels" unique_id=688109524]
+layout_mode = 0
+offset_left = 716.0
+offset_top = 196.0
+offset_right = 756.0
+offset_bottom = 284.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "4"
+
+[node name="Label5" type="Label" parent="Interface/TrackSelection/TrackLabels" unique_id=1902702602]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 432.0
+offset_right = 246.0
+offset_bottom = 520.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "5"
+
+[node name="Label6" type="Label" parent="Interface/TrackSelection/TrackLabels" unique_id=1281271540]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 432.0
+offset_right = 416.0
+offset_bottom = 520.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "6"
+
+[node name="Label7" type="Label" parent="Interface/TrackSelection/TrackLabels" unique_id=1360016738]
+layout_mode = 0
+offset_left = 546.0
+offset_top = 432.0
+offset_right = 586.0
+offset_bottom = 520.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "7"
+
+[node name="Label8" type="Label" parent="Interface/TrackSelection/TrackLabels" unique_id=886488768]
+layout_mode = 0
+offset_left = 716.0
+offset_top = 432.0
+offset_right = 756.0
+offset_bottom = 520.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 64
+text = "8"
+
+[node name="Controls" type="Control" parent="Interface/TrackSelection" unique_id=2077662562]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Cross" type="TextureRect" parent="Interface/TrackSelection/Controls" unique_id=2012774334]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 640.0
+offset_right = 360.0
+offset_bottom = 680.0
+texture = ExtResource("6_o6xl0")
+
+[node name="CrossLabel" type="Label" parent="Interface/TrackSelection/Controls/Cross" unique_id=116176373]
+layout_mode = 0
+offset_left = 60.0
+offset_top = -2.0
+offset_right = 143.0
+offset_bottom = 43.0
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Enter"
+
+[node name="Circle" type="TextureRect" parent="Interface/TrackSelection/Controls" unique_id=2114083888]
+layout_mode = 0
+offset_left = 520.0
+offset_top = 640.0
+offset_right = 560.0
+offset_bottom = 680.0
+texture = ExtResource("7_tipki")
+
+[node name="CrossLabel" type="Label" parent="Interface/TrackSelection/Controls/Circle" unique_id=267712866]
+layout_mode = 0
+offset_left = 60.0
+offset_top = -2.0
+offset_right = 143.0
+offset_bottom = 43.0
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Back"
+
+[node name="MusicPlayer" type="Control" parent="Interface" unique_id=207001913]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_jkv2x")
+
+[node name="Background" type="TextureRect" parent="Interface/MusicPlayer" unique_id=905158041]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_xepy2")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Interface/MusicPlayer" unique_id=692403169]
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 720.0
+
+[node name="SubViewport" type="SubViewport" parent="Interface/MusicPlayer/SubViewportContainer" unique_id=1981436743]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(960, 720)
+render_target_update_mode = 0
+
+[node name="World" type="Node3D" parent="Interface/MusicPlayer/SubViewportContainer/SubViewport" unique_id=433703308]
+
+[node name="Camera3D" type="Camera3D" parent="Interface/MusicPlayer/SubViewportContainer/SubViewport/World" unique_id=450345717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Interface/MusicPlayer/SubViewportContainer/SubViewport/World" unique_id=310437012]
+
+[node name="SpinningCube" type="Node3D" parent="Interface/MusicPlayer/SubViewportContainer/SubViewport/World" unique_id=1420404571]
+
+[node name="Cube" parent="Interface/MusicPlayer/SubViewportContainer/SubViewport/World/SpinningCube" unique_id=1554954520 instance=ExtResource("1_0wfyh")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -1.5, 0.5, -3)
+
+[node name="TrackLabel" type="Label" parent="Interface/MusicPlayer" unique_id=775823512]
+layout_mode = 0
+offset_left = 600.0
+offset_top = 200.0
+offset_right = 767.0
+offset_bottom = 267.0
+theme_override_colors/font_color = Color(1, 0.91764706, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 48
+text = "Track 0"
+
+[node name="DurationLabel" type="Label" parent="Interface/MusicPlayer" unique_id=1166169802]
+layout_mode = 0
+offset_left = 508.0
+offset_top = 324.0
+offset_right = 846.0
+offset_bottom = 391.0
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 48
+text = "00 min. 00 sec."
+
+[node name="PlaybackButtons" type="HBoxContainer" parent="Interface/MusicPlayer" unique_id=1683119638]
+layout_mode = 0
+offset_left = 445.0
+offset_top = 412.0
+offset_right = 509.0
+offset_bottom = 452.0
+
+[node name="PreviousButton" type="TextureRect" parent="Interface/MusicPlayer/PlaybackButtons" unique_id=588870656]
+layout_mode = 2
+texture = ExtResource("8_a8y0u")
+
+[node name="RewindButton" type="TextureRect" parent="Interface/MusicPlayer/PlaybackButtons" unique_id=1737005697]
+layout_mode = 2
+texture = ExtResource("9_jkv2x")
+
+[node name="FastForwardButton" type="TextureRect" parent="Interface/MusicPlayer/PlaybackButtons" unique_id=1648854940]
+layout_mode = 2
+texture = ExtResource("10_jbj1t")
+
+[node name="NextButton" type="TextureRect" parent="Interface/MusicPlayer/PlaybackButtons" unique_id=323791561]
+layout_mode = 2
+texture = ExtResource("11_muem4")
+
+[node name="PlayButton" type="TextureRect" parent="Interface/MusicPlayer/PlaybackButtons" unique_id=906725479]
+layout_mode = 2
+texture = ExtResource("12_dp3eg")
+
+[node name="PauseButton" type="TextureRect" parent="Interface/MusicPlayer/PlaybackButtons" unique_id=2124987718]
+layout_mode = 2
+texture = ExtResource("13_0ld40")
+
+[node name="StopButton" type="TextureRect" parent="Interface/MusicPlayer/PlaybackButtons" unique_id=2081150701]
+layout_mode = 2
+texture = ExtResource("14_gqmmt")
+
+[node name="Controls" type="Control" parent="Interface/MusicPlayer" unique_id=1299572348]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Cross" type="TextureRect" parent="Interface/MusicPlayer/Controls" unique_id=1999273404]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 640.0
+offset_right = 360.0
+offset_bottom = 680.0
+texture = ExtResource("6_o6xl0")
+
+[node name="CrossLabel" type="Label" parent="Interface/MusicPlayer/Controls/Cross" unique_id=1614617398]
+layout_mode = 0
+offset_left = 60.0
+offset_top = -2.0
+offset_right = 143.0
+offset_bottom = 43.0
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Enter"
+
+[node name="Circle" type="TextureRect" parent="Interface/MusicPlayer/Controls" unique_id=173870896]
+layout_mode = 0
+offset_left = 520.0
+offset_top = 640.0
+offset_right = 560.0
+offset_bottom = 680.0
+texture = ExtResource("7_tipki")
+
+[node name="CrossLabel" type="Label" parent="Interface/MusicPlayer/Controls/Circle" unique_id=444024543]
+layout_mode = 0
+offset_left = 60.0
+offset_top = -2.0
+offset_right = 143.0
+offset_bottom = 43.0
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Back"
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="." unique_id=1485888005]
